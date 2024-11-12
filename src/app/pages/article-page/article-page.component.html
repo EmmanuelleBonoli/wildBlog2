@@ -1,1 +1,20 @@
-<p>Article id {{ articleId }}</p>
+@if(article$ | async; as article){
+<div class="article-container">
+  <div class="article-image">
+    <img [src]="article.image" [alt]="article.title" />
+  </div>
+
+  <div class="article-content">
+    <h1 class="article-title">{{ article.title }}</h1>
+
+    <div class="article-meta">
+      <span class="article-date"
+        >Publié le {{ article.createdAt | date : "longDate" }}</span
+      >
+      <span class="article-category">{{ article.categoryName }}</span>
+      <span class="article-like-count">❤️ {{ article.likeCount }} J'aime</span>
+    </div>
+    <p class="article-description">{{ article.content }}</p>
+  </div>
+</div>
+}
