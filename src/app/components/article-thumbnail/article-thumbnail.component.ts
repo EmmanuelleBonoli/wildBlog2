@@ -1,18 +1,20 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { Article } from '../../models/article.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-article-thumbnail',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, RouterLink],
   templateUrl: './article-thumbnail.component.html',
-  styleUrl: './article-thumbnail.component.scss'
+  styleUrl: './article-thumbnail.component.scss',
 })
 export class ArticleThumbnailComponent {
-  input article: Article;
-  output notifyLike = new Output();
+  @Input() article!: Article;
+  @Output() notifyLike = new EventEmitter<Article>();
 
   sendNotification() {
-    notifyLike.emission(this.article);
+    this.notifyLike.emit(this.article);
   }
 }

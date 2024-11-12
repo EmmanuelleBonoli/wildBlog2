@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
@@ -6,13 +6,12 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   templateUrl: './header.component.html',
-  styleUrl: './header.component.scss'
+  styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-
-  private route: Router = injecting(ActivatedRoute);
+  private router: Router = inject(Router);
 
   navigateToSignUpPage(): void {
-    this.route.navigateTo(/signup)
+    this.router.navigate(['/signup']);
   }
 }
