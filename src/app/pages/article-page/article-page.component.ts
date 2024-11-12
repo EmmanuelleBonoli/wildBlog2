@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Article } from '../../models/article.model';
 import { DatePipe, AsyncPipe } from '@angular/common';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-article-page',
@@ -16,6 +17,7 @@ import { DatePipe, AsyncPipe } from '@angular/common';
 export class ArticlePageComponent {
   private route: ActivatedRoute = inject(ActivatedRoute);
   http = inject(HttpClient);
+  private apiService = inject(ApiService);
 
   articleId!: number;
   article$!: Observable<Article | undefined>;
@@ -23,19 +25,7 @@ export class ArticlePageComponent {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.articleId = Number(params.get('id'));
-      this.getArticleById(this.articleId);
     });
-  }
-
-  getArticleById(id: number) {
-    this.article$ = this.http
-      .get<Article[]>(' http://localhost:3000/articles')
-      .pipe(
-        tap((article) => console.log(article)),
-        map((articles) =>
-          articles.find((article) => Number(article.id) === id)
-        ),
-        tap((article) => console.log(article))
-      );
+    this.article$ = this.apiService.getArticleById(this.articleId);
   }
 }

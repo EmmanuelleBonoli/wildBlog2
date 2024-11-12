@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Article } from '../../models/article.model';
 import { AsyncPipe } from '@angular/common';
 import { ArticleThumbnailComponent } from '../article-thumbnail/article-thumbnail.component';
+import { ApiService } from '../../services/api.service';
 
 @Component({
   selector: 'app-article-list',
@@ -14,16 +15,10 @@ import { ArticleThumbnailComponent } from '../article-thumbnail/article-thumbnai
 })
 export class ArticleListComponent implements OnInit {
   articles$!: Observable<Article[]>;
-  http = inject(HttpClient);
+  private apiService = inject(ApiService);
 
   ngOnInit(): void {
-    this.getArticleList();
-  }
-
-  getArticleList(): void {
-    this.articles$ = this.http.get<Article[]>(
-      ' http://localhost:3000/articles'
-    );
+    this.articles$ = this.apiService.getArticles();
   }
 
   handleLike(article: Article) {
